@@ -1,5 +1,5 @@
 import streamlit as st
-from st_audiorec import st_audiorec
+from st_audiorec import st_audiorec   # ✅ correct import
 import tempfile
 import whisper
 
@@ -8,14 +8,14 @@ st.set_page_config(page_title="🎙️ Scam Detector", layout="centered")
 st.title("🎙️ AI Scam Detector")
 st.write("Record your voice, transcribe it with Whisper, and analyze for scams.")
 
-# Load Whisper model
+# Load Whisper
 @st.cache_resource
 def load_model():
     return whisper.load_model("small")
 
 model = load_model()
 
-# Record audio
+# Record audio in browser
 wav_audio_data = st_audiorec()
 
 if wav_audio_data is not None:
@@ -34,7 +34,7 @@ if wav_audio_data is not None:
     st.subheader("📝 Transcript")
     st.write(transcript)
 
-    # Simple scam detection (replace with Hugging Face API later)
+    # Dummy scam detection (later: replace with Hugging Face API)
     if any(word in transcript.lower() for word in ["bank", "password", "mpesa", "pin", "account"]):
         st.error("⚠️ Potential Scam Detected!")
     else:
