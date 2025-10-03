@@ -1,5 +1,5 @@
 import streamlit as st
-from st_audiorec import st_audiorec
+from audiorecorder import audiorecorder
 import tempfile
 import whisper
 
@@ -15,16 +15,15 @@ def load_model():
 
 model = load_model()
 
-# Audio recorder
-wav_audio_data = st_audiorec()
+# Audio recorder (record until user stops)
+audio = audiorecorder("🎙️ Start recording", "⏹️ Stop recording")
 
-if wav_audio_data is not None:
-    st.audio(wav_audio_data, format="audio/wav")
+if len(audio) > 0:
+    st.audio(audio.export().read(), format="audio/wav")
 
     # Save audio to temporary file
     temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
-    with open(temp_file.name, "wb") as f:
-        f.write(wav_audio_data)
+    audio.export(temp_file.name, format="wav")
 
     # Run Whisper transcription
     with st.spinner("Transcribing..."):
