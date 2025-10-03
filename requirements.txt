@@ -3,3 +3,5 @@ streamlit-audiorecorder
 openai-whisper
 torch
 torchaudio
+pydub
+ffmpeg-python
